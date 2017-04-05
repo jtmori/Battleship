@@ -1,0 +1,8 @@
+{% block body %}
+{% if session['logged_in'] %}
+<p>Hello Boss</p>
+<form action="/logout" method="POST">
+  <input type="submit" value="Log out">
+</form>
+{% endif %}
+{% endblock %}

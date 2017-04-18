@@ -5,13 +5,45 @@ import datetime
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
+import threading
+import time
 
 engine = create_engine('sqlite:///tutorial.db', echo=True)
 # create a Session
 #Session = sessionmaker(bind=engine)
 #session = Session()
- 
-app = Flask(__name__)
+
+thread = myThread(threadID, tName, workQueue)
+
+class myThread (threading.Thread):
+    def __init__(self, threadID, name, q):
+        threading.Thread.__init__(self)
+        self.threadID = threadID
+        self.name = name
+        self.q = q
+    def run(self):
+        print "Starting " + self.name
+        print "Exiting " + self.name
+
+def create_app():
+	app = Flask(__name__)
+
+
+	def interrupt():
+        global thread
+        thread.cancel()
+
+    def doStuffStart():
+        # Do initialisation stuff here
+        global thread
+        # Create your thread
+        thread = threading.Timer(POOL_TIME, TESTESTESTESTSETSET, ())
+        thread.start()
+
+    doStuffStart()
+	return app
+
+app = create_app()
  
 @app.route('/')
 def home():

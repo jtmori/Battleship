@@ -1,0 +1,21 @@
+{% block body %}
+<title>Battleship - Login</title>
+<div class=page>
+	<h1>Battleship Game</h1>
+{% if session['logged_in'] %}
+<p>You're logged in already!</p>
+	{% else %}
+	<h3>Login</h3>
+	<form action="\login" method="POST">
+	  <input type="username" name="username" placeholder="Username">
+	  <input type="password" name="password" placeholder="Password">
+	  <input type="submit" name="submit" value="Log in">
+	</form>
+
+	<h3>New Account</h3>
+	<form action="/new_account" method="POST">
+	  <input type="submit" name="submit" value="New User">
+	</form>
+	{% endif %}
+</div>
+{% endblock %}

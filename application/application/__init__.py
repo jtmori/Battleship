@@ -1,6 +1,7 @@
 from flask import Flask
 import threading
 import time
+import os
 import atexit
 
 class myThread (threading.Thread):
@@ -33,8 +34,10 @@ def create_app():
 	atexit.register(interrupt)
 	return app
 
-app = create_app()
 thread = myThread(1, "tName1")
+app = create_app()
+app.secret_key = os.urandom(12)
+
 
 import application.myapp
 

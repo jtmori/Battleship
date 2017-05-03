@@ -12,6 +12,7 @@ import atexit
 from application import app
 
 
+
 engine = create_engine('sqlite:///tutorial.db', echo=True)
 # create a Session
 #Session = sessionmaker(bind=engine)

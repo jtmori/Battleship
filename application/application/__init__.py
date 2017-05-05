@@ -39,5 +39,5 @@ app = create_app()
 app.secret_key = os.urandom(12)
 
 
-import application.myapp
+import application.login.login
 

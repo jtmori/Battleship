@@ -11,6 +11,8 @@ import atexit
 
 from application import app
 
+#print("Login is running currently!")
+#login_count = 0;
 
 engine = create_engine('sqlite:///tutorial.db', echo=True)
 # create a Session
@@ -71,6 +73,8 @@ def do_admin_login():
 			
 				if result:
 					session['logged_in'] = True
+					#login_count += 1;
+					#print("Value for login_count is ", login_count)
 					return render_template('logged_in.html')
 				else:
 					flash('wrong password!')

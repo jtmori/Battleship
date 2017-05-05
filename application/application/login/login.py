@@ -11,45 +11,10 @@ import atexit
 
 from application import app
 
-
+print("login is running currently!") # proof that this is running, not login.py
+login_count = 0;
 
 engine = create_engine('sqlite:///tutorial.db', echo=True)
-# create a Session
-#Session = sessionmaker(bind=engine)
-#session = Session()
-
-# class myThread (threading.Thread):
-# 	def __init__(self, threadID, name):
-# 		threading.Thread.__init__(self)
-# 		self.threadID = threadID
-# 		self.name = name
-# 	def run(self):
-# 		print("Starting ",self.name)
-# 		print("Exiting ",self.name)
-
-# def create_app():
-# 	app = Flask(__name__)
-# 	print("After app = FLASK")
-	
-# 	def interrupt():
-# 		global thread
-# 		thread.cancel()
-
-# 	def doStuffStart():
-# 		# Do initialisation stuff here
-# 		global thread
-# 		print("In DoStuffStart")
-# 		# Create your thread
-# 		time.sleep(5) 
-# 		# TODO: Replace this with the Server Thread Code / Client Thread Code
-# 		thread.start()
-
-# 	doStuffStart()
-# 	atexit.register(interrupt)
-# 	return app
-
-# thread = myThread(1, "tName1")
-# app = create_app()
  
 @app.route('/')
 def home():
@@ -71,7 +36,18 @@ def do_admin_login():
 				result = query.first()
 			
 				if result:
+					global login_count
+					if(login_count == 2):
+						print("Two people already in room, login rejected")
+						session['logged_in'] = False
+						return render_template('room_full.html')
 					session['logged_in'] = True
+					login_count += 1
+					print("Value for login_count is ", login_count)
+					if(login_count == 2):
+						print("Room full, game starts!")
+						# logic for playing
+
 					return render_template('logged_in.html')
 				else:
 					flash('wrong password!')
@@ -101,23 +77,27 @@ def make_new_account():
 #home page eventually - need to rename and replace the title/route/html file
 @app.route('/logged_in', methods=['POST'])
 def home_page():
+	#print("No, this is logout!")
 	if session['logged_in'] == True:
+		global login_count
+		login_count = login_count - 1	
+		print("login_count is", login_count)
 		session['logged_in'] = False
 		return render_template('login.html')
 	return render_template('logged_in.html')
 
 @app.route('/logout', methods=['POST'])
 def do_admin_logout():
+	#print("This is logout")
 	if session['logged_in'] == True:
+		global login_count
+		login_count = login_count - 1
+		print("login_count is", login_count)
 		session['logged_in'] = False
 		return render_template('login.html')
 	return render_template('logout.html')
 
 if __name__ == "__main__":
-	#app.secret_key = os.urandom(12)
-	#app.config['CSRF_SESSION_KEY'] = os.urandom(24)
-	#app.config['SECRET_KEY'] = os.urandom(12)
-
 	PORT_NO = 125
 	HOST = '127.0.0.1'
 	print("Hello 1")

@@ -2,7 +2,6 @@ from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 import os
 import datetime
-from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from tabledef import *
 import threading
@@ -10,20 +9,20 @@ import time
 import atexit
 
 from application import app
+from application.home import homepage
 
 print("login is running currently!") # proof that this is running, not login.py
-login_count = 0;
-
 engine = create_engine('sqlite:///tutorial.db', echo=True)
+login_count = 0;
  
 @app.route('/')
 def home():
 	if not session.get('logged_in'):
 		return render_template('login.html')
 	else:
-		return render_template('logged_in.html')
+		return render_template('homepage.html')
 
-@app.route('/login', methods=['POST'])
+@app.route('/login', methods=['POST', 'GET'])
 def do_admin_login():
 	if request.method == 'POST':
 			if request.form['submit'] == 'Log in':
@@ -37,10 +36,10 @@ def do_admin_login():
 			
 				if result:
 					global login_count
-					if(login_count == 2):
-						print("Two people already in room, login rejected")
-						session['logged_in'] = False
-						return render_template('room_full.html')
+					#if(login_count == 2):
+					#	print("Two people already in room, login rejected")
+					#	session['logged_in'] = False
+					#	return render_template('room_full.html')
 					session['logged_in'] = True
 					login_count += 1
 					print("Value for login_count is ", login_count)
@@ -48,7 +47,7 @@ def do_admin_login():
 						print("Room full, game starts!")
 						# logic for playing
 
-					return render_template('logged_in.html')
+					return redirect(url_for('home_page'))
 				else:
 					flash('wrong password!')
 				return render_template('login.html')
@@ -56,7 +55,7 @@ def do_admin_login():
 				return render_template('new_account.html')
 	return render_template('login.html')
 
-@app.route('/new_account', methods=['POST'])
+@app.route('/new_account', methods=['POST', 'GET'])
 def make_new_account():
 	#return render_template('new_account.html')
 	if request.method == 'POST':
@@ -71,35 +70,5 @@ def make_new_account():
 			flash("Account Created")
 			return render_template('new_account.html');
 		elif request.form['submit'] == 'Back to Login':
-			return render_template('login.html');
+			return redirect(url_for('login')) 
 	return render_template('new_account.html')
-
-#home page eventually - need to rename and replace the title/route/html file
-@app.route('/logged_in', methods=['POST'])
-def home_page():
-	#print("No, this is logout!")
-	if session['logged_in'] == True:
-		global login_count
-		login_count = login_count - 1	
-		print("login_count is", login_count)
-		session['logged_in'] = False
-		return render_template('login.html')
-	return render_template('logged_in.html')
-
-@app.route('/logout', methods=['POST'])
-def do_admin_logout():
-	#print("This is logout")
-	if session['logged_in'] == True:
-		global login_count
-		login_count = login_count - 1
-		print("login_count is", login_count)
-		session['logged_in'] = False
-		return render_template('login.html')
-	return render_template('logout.html')
-
-if __name__ == "__main__":
-	PORT_NO = 125
-	HOST = '127.0.0.1'
-	print("Hello 1")
-	app.run(debug=True,threaded=True)
-	print("Hello 2")

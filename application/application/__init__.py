@@ -1,8 +1,10 @@
 from flask import Flask
+from sqlalchemy import create_engine
 import threading
 import time
 import os
 import atexit
+#engine = create_engine('sqlite:///tutorial.db', echo=True)
 
 class myThread (threading.Thread):
 	def __init__(self, threadID, name):
@@ -40,4 +42,11 @@ app.secret_key = os.urandom(12)
 
 
 import application.login.login
+import application.home.homepage
 
+if __name__ == "__main__":
+	PORT_NO = 125
+	HOST = '127.0.0.1'
+	print("Hello 1")
+	app.run(debug=True,threaded=True)
+	print("Hello 2")

@@ -13,7 +13,6 @@ from application.game import game
 
 # engine = create_engine('sqlite:///tutorial.db', echo=True)
 login_count = 0;
-
  
 def get_login_count():
 	global login_count

@@ -2,7 +2,11 @@
 {% if session['logged_in'] %}
 <h1>Battleship Server</h1>
 <p>Welcome to the Battleship Server</p>
-<p>The game should be up soon.  Once two people have joined, the game button will activate.</p>
+
+<h4>Opponents</h4>
+<form action="/home/" method="POST">
+  <input type="submit" name="submit" value="Ready To Play">
+</form>
 
 <h4>Game</h4>
 <form action="/home/" method="POST">
@@ -15,7 +19,7 @@
 </form>
 {% else %}
 <h1>Battleship Server<h1>
-<h3>You may have tried to access a page without permissions.  Please go back to login.</h3>
+<h3>You may have tried to access a page without permissions.  Please login to view page.</h3>
 
 <form action="/login" method="POST">
   <input type="submit" name="submit" value="Login">

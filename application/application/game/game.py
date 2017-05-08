@@ -12,19 +12,20 @@ from application import app
 from application.login import login
 from application.home import homepage
 
-usernames_in_room = []
+
 
 @app.route('/game/', methods=['POST','GET'])
 def game():
+	pairs = homepage.get_pairs()
+	user1 = session['username']
 	if not session.get('logged_in'):
 		return redirect(url_for('error_page'))
 	print("Game service activated!")
-	usernames_in_room.append(session['username'])
-	print("Size of usernames_in_room is ", len(usernames_in_room))
-	# while(len(usernames_in_room) != 2):
-	# 	time.sleep(1)
-	if usernames_in_room.index(session['username']) == 0:
-		return render_template('game.html', user1 = session['username'], user2 = usernames_in_room[1])
-	else:
-		return render_template('game.html', user1 = session['username'], user2 = usernames_in_room[0])
-	
+	user2 = ''
+	for item in pairs:
+		if session['username'] in item:
+			lst = list(item)
+			lst.remove(session['username'])
+			user2 = lst[0]
+			print(user2, "is the other user")
+	return render_template('game.html', user1 = session['username'], user2 = user2)

@@ -1,10 +1,12 @@
-from flask import Flask
+from flask import Flask, session
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 import threading
 import time
 import os
 import atexit
-#engine = create_engine('sqlite:///tutorial.db', echo=True)
+
+engine = create_engine('sqlite:///tutorial.db', echo=True)
 
 class myThread (threading.Thread):
 	def __init__(self, threadID, name):
@@ -39,7 +41,7 @@ def create_app():
 thread = myThread(1, "tName1")
 app = create_app()
 app.secret_key = os.urandom(12)
-
+#session['logged_in'] = False
 
 import application.login.login
 import application.home.homepage

@@ -1,4 +1,3 @@
-from flask import Flask
 from flask import Flask, flash, redirect, render_template, request, session, abort, url_for
 import os
 import datetime
@@ -11,10 +10,29 @@ import atexit
 from application import app
 from application.home import homepage
 
-print("login is running currently!") # proof that this is running, not login.py
-engine = create_engine('sqlite:///tutorial.db', echo=True)
+# engine = create_engine('sqlite:///tutorial.db', echo=True)
 login_count = 0;
  
+def get_login_count():
+	global login_count
+	return login_count
+
+def set_login_count(val):
+	global login_count
+	login_count = val
+
+def decrement_login_count():
+	global login_count
+	login_count = login_count - 1
+
+def increment_login_count():
+	global login_count
+	login_count = login_count + 1
+
+def print_login_count():
+	global login_count
+	print(login_count," is the value of login_count")
+
 @app.route('/')
 def home():
 	if not session.get('logged_in'):
@@ -23,7 +41,7 @@ def home():
 		return render_template('homepage.html')
 
 @app.route('/login', methods=['POST', 'GET'])
-def do_admin_login():
+def do_login():
 	if request.method == 'POST':
 			if request.form['submit'] == 'Log in':
 				POST_USERNAME = str(request.form['username'])
@@ -36,17 +54,13 @@ def do_admin_login():
 			
 				if result:
 					global login_count
-					#if(login_count == 2):
-					#	print("Two people already in room, login rejected")
-					#	session['logged_in'] = False
-					#	return render_template('room_full.html')
+					
 					session['logged_in'] = True
 					login_count += 1
 					print("Value for login_count is ", login_count)
 					if(login_count == 2):
 						print("Room full, game starts!")
-						# logic for playing
-
+						# logic for playing moved to homepage.py
 					return redirect(url_for('home_page'))
 				else:
 					flash('wrong password!')
@@ -57,7 +71,6 @@ def do_admin_login():
 
 @app.route('/new_account', methods=['POST', 'GET'])
 def make_new_account():
-	#return render_template('new_account.html')
 	if request.method == 'POST':
 		if request.form['submit'] == 'Create Account':
 			POST_USERNAME = str(request.form['username'])
@@ -70,5 +83,12 @@ def make_new_account():
 			flash("Account Created")
 			return render_template('new_account.html');
 		elif request.form['submit'] == 'Back to Login':
-			return redirect(url_for('login')) 
+			return redirect(url_for('do_login')) 
 	return render_template('new_account.html')
+
+# for when people try and circumvent some things
+@app.route('/error_page', methods=['POST','GET'])
+def get_error_page():
+	if request.form['submit'] == 'Go to Login':
+			return redirect(url_for('login')) 
+	return render_template('error_page.html')

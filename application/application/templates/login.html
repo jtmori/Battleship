@@ -6,7 +6,7 @@
 <p>You're logged in already!</p>
 	{% else %}
 	<h3>Login</h3>
-	<form action="\login" method="POST">
+	<form action="/login" method="POST"> <!-- was \ now / -->
 	  <input type="username" name="username" placeholder="Username">
 	  <input type="password" name="password" placeholder="Password">
 	  <input type="submit" name="submit" value="Log in">

@@ -9,9 +9,11 @@ import atexit
 
 from application import app
 from application.home import homepage
+from application.game import game
 
 # engine = create_engine('sqlite:///tutorial.db', echo=True)
 login_count = 0;
+
  
 def get_login_count():
 	global login_count
@@ -54,7 +56,8 @@ def do_login():
 			
 				if result:
 					global login_count
-					
+					session['username'] = POST_USERNAME
+					print(session['username'], " is the user currently")
 					session['logged_in'] = True
 					login_count += 1
 					print("Value for login_count is ", login_count)

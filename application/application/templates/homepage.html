@@ -13,5 +13,13 @@
 <form action="/home/" method="POST">
   <input type="submit" name="submit" value="Log Out">
 </form>
+{% else %}
+<h1>Battleship Server<h1>
+<h3>You may have tried to access a page without permissions.  Please go back to login.</h3>
+
+<form action="/login" method="POST">
+  <input type="submit" name="submit" value="Login">
+</form>
 {% endif %}
+
 {% endblock %}

@@ -41,10 +41,10 @@ def create_app():
 thread = myThread(1, "tName1")
 app = create_app()
 app.secret_key = os.urandom(12)
-#session['logged_in'] = False
 
 import application.login.login
 import application.home.homepage
+import application.game.game
 
 if __name__ == "__main__":
 	PORT_NO = 125

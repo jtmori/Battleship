@@ -334,13 +334,4 @@ my_ship:hover {background:white}
 	</table>
 </div>
 
-{% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-      	 {% if not session['RTR'] %}
-         	{{ message }}
-      	 {% endif %}}
-      {% endfor %}
-   {% endif %}
-{% endwith %}
 {% endblock %}

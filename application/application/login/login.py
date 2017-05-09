@@ -9,7 +9,7 @@ import atexit
 
 from application import app
 from application.home import homepage
-from application.game import game, game_logic
+from application.game import game, game_logic, end_game
 
 # engine = create_engine('sqlite:///tutorial.db', echo=True)
 login_count = 0;

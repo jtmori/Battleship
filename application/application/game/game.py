@@ -12,7 +12,7 @@ from random import randint
 from application import app
 from application.login import login
 from application.home import homepage
-from application.game import game_logic
+from application.game import game_logic, end_game
 
 lst_server = []
 lst_game = []
@@ -63,7 +63,11 @@ def game_setup():
 				session['hits_to_fleet'] = []
 				session['misses_to_fleet'] = []
 				session['RTR'] = False
+
+				# board is the bottom one in the page
 				session['board'] = game_logic.whip_up_new_board()
+
+				# opponent board is the top one in the page
 				session['opponent_board'] = game_logic.whip_up_new_board()
 
 				game_logic.game_start()
@@ -101,7 +105,6 @@ def game_setup():
 				flash("These are not valid squares!  Repick! </br>")
 	return render_template('game_setup.html')
 
-# rewriting
 @app.route('/game/', methods=['POST','GET'])
 def game():
 	global aimed_move
@@ -112,16 +115,15 @@ def game():
 			print("Inside FIRE")
 			if session['RTR']:
 				coord = str(request.form['Coordinate'])
-				print(coord, " is the coordinate being tried.")
-				if game_logic.is_valid_move(coord):
-					aimed_move = [session['opponent'],coord]
-					print(session['username'], " is sending ", coord)
-					# temp_board = session['opponents_board']
-					# temp_x = game_logic.convert_from_letter_to_int(coord[0])
-					# temp_y = game_logic.convert_from_number_to_int(coord[1])
-					# # must send move to enemy
+				if len(coord) != 2:
+					print("Not a valid move, please try another move!")
 				else:
-					flash("Not a valid move, please try another move!</br>")
+					print(coord, " is the coordinate being tried.")
+					if game_logic.is_valid_move(coord):
+						aimed_move = [session['opponent'],coord]
+						print(session['username'], " is sending ", coord)
+					else:
+						flash("Not a valid move, please try another move!</br>")
 			else:
 				flash("Not your turn, please wait</br>")
 		elif request.form['submit'] == 'Check for Attack':
@@ -132,44 +134,59 @@ def game():
 					temp_boat_coords = session['ships']
 					temp_misses = session['misses_to_fleet']
 					temp_hits = session['hits_to_fleet']
+					temp_board = session['board']
 					for boat in temp_boat_coords:
 						print(boat[0], " is the first item in the boat")
+						if boat[0] == 'X':
+							continue
 						if coord_recv in boat:
 							temp_hits.append(coord_recv)
 							boat.remove(coord_recv)
+							temp_board[game_logic.convert_from_number_to_int(coord_recv[1])][game_logic.convert_from_letter_to_int(coord_recv[0])] = 'O'
 							print(session['opponent'], " hit!!")
 							if boat[0] == 'X':
 								print(session['opponent'], " has sunken a ship!")
+								game_logic.print_board(temp_board)
 							session['ships'] = temp_boat_coords
 							session['hits_to_fleet'] = temp_hits
 							move_response = [session['opponent'], 'Hit']
 							break
-					else:
-						temp_misses.append(coord_recv)
-						session['misses_to_fleet'] = temp_misses
-						move_response = [session['opponent'], 'Miss']
-						print(session['opponent'], " missed!!")
-						if game_logic.check_game_over(session['boats']):
-							session['WIN'] = False
-							game_status = 'end'
-							redirect(redirect(url_for('loser.html')))
+						else:
+							temp_misses.append(coord_recv)
+							session['misses_to_fleet'] = temp_misses
+							temp_board[game_logic.convert_from_number_to_int(coord_recv[1])][game_logic.convert_from_letter_to_int(coord_recv[0])] = 'X'
+							move_response = [session['opponent'], 'Miss']
+							print(session['opponent'], " missed!!")
+						session['board'] = temp_board
+					if game_logic.check_game_over(session['ships']):
+						print('game should be over')
+						session['WIN'] = False
+						game_status = 'end'
+						return redirect(redirect(url_for('loser')))
+					
 					session['RTR'] = True
 		elif request.form['submit'] == 'Check for Response':
 			print("CHECK FOR RESPONSE")
 			if session['RTR']:
 				if session['username'] in move_response:
 					response = move_response[1]
+					temp_board = session['opponent_board']
+					coord = aimed_move[1]
+					# X represents a miss, O (capital o, not zero) represents a hit
+					#TODO: graphic logic
 					if response == 'Miss':
-						#TODO: graphic logic
+						temp_board[game_logic.convert_from_number_to_int(coord[1])][game_logic.convert_from_letter_to_int(coord[0])] = 'X'
 						session['misses'].append(aimed_move[1])
 					else:
+						temp_board[game_logic.convert_from_number_to_int(coord[1])][game_logic.convert_from_letter_to_int(coord[0])] = 'O'
 						session['hits'].append(aimed_move[1])
+					session['opponent_board'] = temp_board
 					aimed_move = []
 					move_response = []
 					session['RTR'] = False
 					if game_status == 'end':
 						session['WIN'] = True
-						redirect(url_for('winner.html'))
+						return redirect(url_for('winner'))
 
 	return render_template('game.html', user1 = session['username'], user2 = session['opponent'])
 

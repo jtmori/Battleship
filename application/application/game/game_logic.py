@@ -12,7 +12,7 @@ from random import randint
 from application import app
 from application.login import login
 from application.home import homepage
-from application.game import game
+from application.game import game, end_game
 
 # checks if move is valid
 def is_valid_move(coord):
@@ -47,13 +47,17 @@ def game_start():
 		session['RTR'] = True
 		print('RTR awarded to ', session['username'], ' ', session['RTR'])
 
-def check_game_over(board):
-	for item in board:
+def check_game_over(ships):
+	for item in ships:
 		if item[0] != 'X':
 			return False
 	return True
 
-
+def print_board(board):
+	for x in range(10):
+		for y in range(10):
+			print(board[x][y],end='')
+		print()
 
 # used to make a board
 def whip_up_new_board():

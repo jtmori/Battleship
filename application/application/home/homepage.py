@@ -10,7 +10,7 @@ import atexit
 
 from application import app
 from application.login import login
-from application.game import game, game_logic
+from application.game import game, game_logic, end_game
 
 room_open = False
 

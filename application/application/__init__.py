@@ -46,6 +46,7 @@ import application.login.login
 import application.home.homepage
 import application.game.game
 import application.game.game_logic
+import application.game.end_game
 
 if __name__ == "__main__":
 	PORT_NO = 125

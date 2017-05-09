@@ -10,9 +10,9 @@ import atexit
 
 from application import app
 from application.login import login
-from application.game import game
+from application.game import game, game_logic
 
-room_open = False;
+room_open = False
 
 pairs = []
 opponents = []

@@ -12,6 +12,7 @@ from random import randint
 from application import app
 from application.login import login
 from application.home import homepage
+from application.game import game_logic
 
 lst_server = []
 lst_game = []
@@ -20,8 +21,14 @@ lst1 = []
 lst2 = []
 lst3 = []
 
+#rocket_list = [] # list of tuple containting opponent name and coordinates
+aimed_move = []
+move_response = []
+game_status = 'ongoing'
+
 @app.route('/game_setup/', methods=['POST','GET'])
 def game_setup():
+	
 	global lst1
 	global lst2
 	global lst3
@@ -50,11 +57,16 @@ def game_setup():
 				# adds your coordinates (for checks with enemy attempts)
 				# and blank lists for hits and misses for the game about to play
 				# RTR will say if it is your turn or theirs, both are by default false
-				session(['your_ships']) = lst
-				session(['your_hits']) = []
-				session(['your_misses']) = []
-				session(['RTR']) = False
+				session['ships'] = lst
+				session['hits'] = []
+				session['misses'] = []
+				session['hits_to_fleet'] = []
+				session['misses_to_fleet'] = []
+				session['RTR'] = False
+				session['board'] = game_logic.whip_up_new_board()
+				session['opponent_board'] = game_logic.whip_up_new_board()
 
+				game_logic.game_start()
 				pairs = homepage.get_pairs()
 				user2 = ''
 				for item in pairs:
@@ -64,7 +76,7 @@ def game_setup():
 						user2 = lst[0]
 						
 				# saves opponent in session
-				session(['opponent']) = user2
+				session['opponent'] = user2
 				print(session['opponent'], 'is the other user, huzzah!')
 
 				lst.append(session['username'])
@@ -86,24 +98,80 @@ def game_setup():
 				lst1 = []
 				lst2 = []
 				lst3 = []
-				flash("These are not valid squares!  Repick!")
+				flash("These are not valid squares!  Repick! </br>")
 	return render_template('game_setup.html')
 
+# rewriting
 @app.route('/game/', methods=['POST','GET'])
 def game():
-	pairs = homepage.get_pairs()
-	user1 = session['username']
-	if not session.get('logged_in'):
-		return redirect(url_for('error_page'))
-	print("Game service activated!")
-	user2 = ''
-	for item in pairs:
-		if session['username'] in item:
-			lst = list(item)
-			lst.remove(session['username'])
-			user2 = lst[0]
-			print(user2, "is the other user")
-	return render_template('game.html', user1 = session['username'], user2 = user2)
+	global aimed_move
+	global move_response
+	global game_status
+	if request.method == 'POST':
+		if request.form['submit'] == 'Fire!':
+			print("Inside FIRE")
+			if session['RTR']:
+				coord = str(request.form['Coordinate'])
+				print(coord, " is the coordinate being tried.")
+				if game_logic.is_valid_move(coord):
+					aimed_move = [session['opponent'],coord]
+					print(session['username'], " is sending ", coord)
+					# temp_board = session['opponents_board']
+					# temp_x = game_logic.convert_from_letter_to_int(coord[0])
+					# temp_y = game_logic.convert_from_number_to_int(coord[1])
+					# # must send move to enemy
+				else:
+					flash("Not a valid move, please try another move!</br>")
+			else:
+				flash("Not your turn, please wait</br>")
+		elif request.form['submit'] == 'Check for Attack':
+			print("Inside CHECK FOR ATTACK")
+			if not session['RTR']:
+				if session['username'] in aimed_move:
+					coord_recv = aimed_move[1]
+					temp_boat_coords = session['ships']
+					temp_misses = session['misses_to_fleet']
+					temp_hits = session['hits_to_fleet']
+					for boat in temp_boat_coords:
+						print(boat[0], " is the first item in the boat")
+						if coord_recv in boat:
+							temp_hits.append(coord_recv)
+							boat.remove(coord_recv)
+							print(session['opponent'], " hit!!")
+							if boat[0] == 'X':
+								print(session['opponent'], " has sunken a ship!")
+							session['ships'] = temp_boat_coords
+							session['hits_to_fleet'] = temp_hits
+							move_response = [session['opponent'], 'Hit']
+							break
+					else:
+						temp_misses.append(coord_recv)
+						session['misses_to_fleet'] = temp_misses
+						move_response = [session['opponent'], 'Miss']
+						print(session['opponent'], " missed!!")
+						if game_logic.check_game_over(session['boats']):
+							session['WIN'] = False
+							game_status = 'end'
+							redirect(redirect(url_for('loser.html')))
+					session['RTR'] = True
+		elif request.form['submit'] == 'Check for Response':
+			print("CHECK FOR RESPONSE")
+			if session['RTR']:
+				if session['username'] in move_response:
+					response = move_response[1]
+					if response == 'Miss':
+						#TODO: graphic logic
+						session['misses'].append(aimed_move[1])
+					else:
+						session['hits'].append(aimed_move[1])
+					aimed_move = []
+					move_response = []
+					session['RTR'] = False
+					if game_status == 'end':
+						session['WIN'] = True
+						redirect(url_for('winner.html'))
+
+	return render_template('game.html', user1 = session['username'], user2 = session['opponent'])
 
 # assumes a 10 by 10 board
 # direction value of 0 is vertical, 1 is horizontal
@@ -142,9 +210,9 @@ def check_if_valid_squares(start1,dir1,start2,dir2,start3,dir3):
 	global lst3
 
 	lst = [start1,start2,start3]
-	lst1 = ['X',start1]
-	lst2 = ['X',start2]
-	lst3 = ['X',start3]
+	lst1 = [start1]
+	lst2 = [start2]
+	lst3 = [start3]
 
 	# Checking for no overlap
 	# Boat 1
@@ -181,7 +249,7 @@ def check_if_valid_squares(start1,dir1,start2,dir2,start3,dir3):
 				return False
 			lst2.append(coord)
 			if coord in lst:
-				flash("Conflict found on coordinate ", coord)
+				print("Conflict found on coordinate ", coord)
 				return False
 			lst.append(coord)
 		elif dir2 == '0':
@@ -217,33 +285,8 @@ def check_if_valid_squares(start1,dir1,start2,dir2,start3,dir3):
 				print("Conflict found on coordinate ", coord)
 				return False
 			lst.append(coord)
-
+	lst1.append('X')
+	lst2.append('X')
+	lst3.append('X')
 	return True
 
-# used to define who goes first,
-def game_start():
-	pairs = homepage.get_pairs() # what is the order of get pair
-	user1 = ''
-	user2 = ''
-	if session['username'] in item:
-		lst = list(item)
-		user1 = lst[0]
-		user2 = lst[1]
-	decider = 1 # could generate a diff value for each, order should be same for both, right?
-	if lst[decider] == session['username']:
-		session['RTR'] = True
-		print('RTR awarded to ', session['username'])
-
-
-# used to make a board
-def whip_up_new_board():
-	board = [['-' for x in range(10)] for y in range(10)] 
-	return board
-
-# converts capital letter into int
-def convert_from_letter_to_int(character):
-	return ord(character) - 65 # 65 is 'A'
-
-# converts number char into int
-def convert_from_number_to_int(character):
-	return ord(character) - 48

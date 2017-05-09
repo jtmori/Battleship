@@ -45,6 +45,7 @@ app.secret_key = os.urandom(12)
 import application.login.login
 import application.home.homepage
 import application.game.game
+import application.game.game_logic
 
 if __name__ == "__main__":
 	PORT_NO = 125

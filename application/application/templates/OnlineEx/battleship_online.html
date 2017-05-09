@@ -1,0 +1,70 @@
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=0.5">
+		<!-- document title -->
+		<title>Battle Ship by Codify Academy</title>
+
+		<!-- 
+		<link rel="shortcut icon" href="favicon.ico">
+
+		
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
+		-->
+		<!-- battleship css -->
+		<link rel="stylesheet" type="text/css" href="battleship.css"> -->
+	</head>
+
+	<body>
+
+		<!--  -->
+		
+		<!-- battleship board -->
+		<div id="board">
+			<!-- battleship user inputs -->
+			<form>
+				<div class="input-group">
+					<input type="text" id="guessInput" placeholder="A0" autofocus class="form-control">
+					<input type="button" id="fireButton" value="Fire!" class="btn btn-danger">
+				</div>
+			</form>
+			<!-- battleship table -->
+			<table>
+				<!-- battleship row 0 -->
+				<tr>
+					<td id="00"></td><td id="01"></td><td id="02"></td><td id="03"></td><td id="04"></td><td id="05"></td><td id="06"></td>
+				</tr>
+				<!-- battleship row 1 -->
+				<tr>
+					<td id="10"></td><td id="11"></td><td id="12"></td><td id="13"></td><td id="14"></td><td id="15"></td><td id="16"></td>
+				</tr>
+				<!-- battleship row 2 -->
+				<tr>
+					<td id="20"></td><td id="21"></td><td id="22"></td><td id="23"></td><td id="24"></td><td id="25"></td><td id="26"></td>
+				</tr>
+				<!-- battleship row 3 -->
+				<tr>
+					<td id="30"></td><td id="31"></td><td id="32"></td><td id="33"></td><td id="34"></td><td id="35"></td><td id="36"></td>
+				</tr>
+				<!-- battleship row 4 -->
+				<tr>
+					<td id="40"></td><td id="41"></td><td id="42"></td><td id="43"></td><td id="44"></td><td id="45"></td><td id="46"></td>
+				</tr>
+				<!-- battleship row 5 -->
+				<tr>
+					<td id="50"></td><td id="51"></td><td id="52"></td><td id="53"></td><td id="54"></td><td id="55"></td><td id="56"></td>
+				</tr>
+				<!-- battleship row 6 -->
+				<tr>
+					<td id="60"></td><td id="61"></td><td id="62"></td><td id="63"></td><td id="64"></td><td id="65"></td><td id="66"></td>
+				</tr>
+			</table>			
+		</div>
+
+		<script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+		<script src="battleship.js"></script>
+
+	</body>
+
+</html>

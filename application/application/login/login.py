@@ -44,7 +44,7 @@ def home():
 @app.route('/login', methods=['POST', 'GET'])
 def do_login():
 	if request.method == 'POST':
-			if request.form['submit'] == 'Log in':
+			if request.form['submit'] == 'Log In':
 				POST_USERNAME = str(request.form['username'])
 				POST_PASSWORD = str(request.form['password'])
 
@@ -60,8 +60,8 @@ def do_login():
 					session['logged_in'] = True
 					login_count += 1
 					print("Value for login_count is ", login_count)
-					if(login_count == 2):
-						print("Room full, game starts!")
+					#if(login_count == 2):
+						#print("Room full, game starts!")
 						# logic for playing moved to homepage.py
 					return redirect(url_for('home_page'))
 				else:

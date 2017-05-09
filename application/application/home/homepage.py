@@ -81,7 +81,7 @@ def home_page():
 			for item in pairs:
 				if session['username'] in item:
 					session['tuple'] = item
-					return redirect(url_for('game'))
+					return redirect(url_for('game_setup'))
 			if len(opponents) >= 2:
 				opponents.remove(session['username'])
 				tup = (session['username'], opponents.pop())
@@ -92,7 +92,7 @@ def home_page():
 						print(i)
 					print()
 				session['tuple'] = tup
-				return redirect(url_for('game'))
+				return redirect(url_for('game_setup'))
 
 			# if room_open == True:
 			# 	print("Joining Room and Setting room_open to False")

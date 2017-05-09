@@ -1,0 +1,30 @@
+{% block body %}
+<title>Battleship - Setup</title>
+<div class=page>
+	<h1>Battleship Game</h1>
+	<p>Each team has 3 ships of 3 block length each.</p>
+	<p>Ships can be vertical or horizontal in direction.</p>
+	<p>In the below boxes, choose a starting square and the direction (0 for Vertical, 1 for Horizontal) for each ship.</p>
+	<p></p>
+	<p></p>
+
+	<form action="/game_setup/" method="POST"> <!-- was \ now / -->
+	  <input type="Boat 1" name="Boat 1" placeholder="A0">
+	  <input type="Dir 1" name="Dir 1" placeholder="0">
+	  <p></p>
+	  <input type="Boat 2" name="Boat 2" placeholder="B1">
+	  <input type="Dir 2" name="Dir 2" placeholder="1">
+	  <p></p>
+	  <input type="Boat 3" name="Boat 3" placeholder="C2">
+	  <input type="Dir 3" name="Dir 3" placeholder="0">
+	  <input type="submit" name="submit" value="Play">
+	</form>
+{% with messages = get_flashed_messages() %}
+   {% if messages %}
+      {% for message in messages %}
+         {{ message }}
+      {% endfor %}
+   {% endif %}
+{% endwith %}
+</div>
+{% endblock %}

@@ -12,7 +12,7 @@ from random import randint
 from application import app
 from application.login import login
 from application.home import homepage
-from application.game import game_logic, end_game
+from application.game import game_logic
 
 lst_server = []
 lst_game = []
@@ -162,7 +162,7 @@ def game():
 						print('game should be over')
 						session['WIN'] = False
 						game_status = 'end'
-						return redirect(redirect(url_for('loser')))
+						return redirect(url_for('loser'))
 					
 					session['RTR'] = True
 		elif request.form['submit'] == 'Check for Response':
@@ -307,3 +307,35 @@ def check_if_valid_squares(start1,dir1,start2,dir2,start3,dir3):
 	lst3.append('X')
 	return True
 
+# no longer using end_game
+@app.route('/winner', methods=['POST','GET'])
+def winner():
+	session.pop('ships', None)
+	session.pop('hits', None)
+	session.pop('misses', None)
+	session.pop('hits_to_fleet', None)
+	session.pop('misses_to_fleet', None)
+	session.pop('RTR', None)
+	session.pop('board', None)
+	session.pop('opponent_board', None)
+	session.pop('opponent', None)
+	if request.method == 'POST':
+		if request.form['submit'] == 'Back To Home':
+			return redirect(url_for('home_page'))
+	return render_template('winner.html')
+
+@app.route('/loser', methods=['POST','GET'])
+def loser():
+	session.pop('ships', None)
+	session.pop('hits', None)
+	session.pop('misses', None)
+	session.pop('hits_to_fleet', None)
+	session.pop('misses_to_fleet', None)
+	session.pop('RTR', None)
+	session.pop('board', None)
+	session.pop('opponent_board', None)
+	session.pop('opponent', None)
+	if request.method == 'POST':
+		if request.form['submit'] == 'Back To Home':
+			return redirect(url_for('home_page'))
+	return render_template('loser.html')

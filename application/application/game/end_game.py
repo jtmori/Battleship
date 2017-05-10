@@ -14,32 +14,32 @@ from application.login import login
 from application.home import homepage
 from application.game import game_logic, game
 
-@app.route('/winner', methods=['POST','GET'])
-def winner():
-	#session.pop('ships', None)
-	#session.pop('hits', None)
-	#session.pop('misses', None)
-	#session.pop('hits_to_fleet', None)
-	#session.pop('misses_to_fleet', None)
-	#session.pop('RTR', None)
-	#session.pop('board', None)
-	#session.pop('opponent_board', None)
-	#session.pop('opponents', None)
-	if request.form['submit'] == 'Back To Home':
-		return redirect(url_for('home_page'))
-	return render_template('winner.html')
+# @app.route('/winner', methods=['POST','GET'])
+# def winner():
+# 	#session.pop('ships', None)
+# 	#session.pop('hits', None)
+# 	#session.pop('misses', None)
+# 	#session.pop('hits_to_fleet', None)
+# 	#session.pop('misses_to_fleet', None)
+# 	#session.pop('RTR', None)
+# 	#session.pop('board', None)
+# 	#session.pop('opponent_board', None)
+# 	#session.pop('opponents', None)
+# 	if request.form['submit'] == 'Back To Home':
+# 		return redirect(url_for('home_page'))
+# 	return render_template('winner.html')
 
-@app.route('/loser', methods=['POST','GET'])
-def loser():
-	#session.pop('ships', None)
-	#session.pop('hits', None)
-	#session.pop('misses', None)
-	#session.pop('hits_to_fleet', None)
-	#session.pop('misses_to_fleet', None)
-	#session.pop('RTR', None)
-	#session.pop('board', None)
-	#session.pop('opponent_board', None)
-	#session.pop('opponents', None)
-	if request.form['submit'] == 'Back To Home':
-		return redirect(url_for('home_page'))
-	return render_template('loser.html')
+# @app.route('/loser', methods=['POST','GET'])
+# def loser():
+# 	#session.pop('ships', None)
+# 	#session.pop('hits', None)
+# 	#session.pop('misses', None)
+# 	#session.pop('hits_to_fleet', None)
+# 	#session.pop('misses_to_fleet', None)
+# 	#session.pop('RTR', None)
+# 	#session.pop('board', None)
+# 	#session.pop('opponent_board', None)
+# 	#session.pop('opponents', None)
+# 	if request.form['submit'] == 'Back To Home':
+# 		return redirect(url_for('home_page'))
+# 	return render_template('loser.html')

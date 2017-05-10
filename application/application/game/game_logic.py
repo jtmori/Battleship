@@ -12,7 +12,7 @@ from random import randint
 from application import app
 from application.login import login
 from application.home import homepage
-from application.game import game, end_game
+from application.game import game
 
 # checks if move is valid
 def is_valid_move(coord):

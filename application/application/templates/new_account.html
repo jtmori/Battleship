@@ -1,17 +1,15 @@
 {% block body %}
 <style type="text/css">
 body{background: #6f2a2a;}
-h1 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 54px; font-weight: 300; line-height: 58px; margin: 0 0 50px; text-align: center; font-style:bold;}
-h3 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 30px; font-weight: 300; line-height: 58px; margin: 0 0 0; text-align: center; font-style:bold;}
+h1 { color: #111; font-family: 'Lato', sans-serif; font-size: 54px; font-weight: 300; line-height: 58px; margin: 0 0 50px; text-align: center; font-style:bold;}
+h3 { color: #111; font-family: 'Lato', sans-serif; font-size: 30px; font-weight: 300; line-height: 58px; margin: 0 0 0; text-align: center; font-style:bold;}
 
-#login {width:50%;margin: auto; background: #491d1d; border-style: solid; border-width:3px; border-color: #FFFFFF; padding-bottom: 20px}
 .inner {text-align: center;}
 	</style>
 
 <title>Battleship - Login</title>
 <div class=page>
 	<h1>Battleship Game</h1>
-	<div id="login">
 		<div class="inner">
 			<h3>Account Creation</h3>
 			<form action="/new_account" method="POST">
@@ -20,7 +18,6 @@ h3 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 30px; font-weig
 			  <input type="submit" name="submit" value="Create Account">
 			</form>
 		</div>
-	</div>
 	<p></p>
 	<p></p>
 	<p></p>

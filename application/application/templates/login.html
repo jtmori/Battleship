@@ -2,11 +2,29 @@
 	<style type="text/css">
 body
 {background: #6f2a2a;}
-h1 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 54px; font-weight: 300; line-height: 58px; margin: 0 0 50px; text-align: center; font-style:bold;}
-h3 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 30px; font-weight: 300; line-height: 58px; margin: 0 0 0; text-align: center; font-style:bold;}
+h1 { color: #111; font-family: 'Lato', sans-serif; font-size: 54px; font-weight: 300; line-height: 58px; margin: 0 0 50px; text-align: center; font-style:bold;}
+h3 { color: #111; font-family: 'Lato', sans-serif; font-size: 30px; font-weight: 300; line-height: 58px; margin: 0 0 0; text-align: center; font-style:bold;}
 
 #login {width:50%;margin: auto; background: #491d1d; border-style: solid; border-width:3px; border-color: #FFFFFF; padding-bottom: 20px}
 .inner {text-align: center;}
+.login_input {
+    width: 50%;
+    padding: 12px 20px 12px;
+    margin: 8px 0;
+
+}
+.login_input:focus {border: 3px solid #555;}
+.button {background-color: #111;
+    color: white;
+    border: 2px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	border-radius: 4px;}
+.button:hover {border-color: #3f2a2a; background-color: white; color: #111; }
+
 	</style>
 
 <title>Battleship - Login</title>
@@ -15,16 +33,15 @@ h3 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 30px; font-weig
 {% if session['logged_in'] %}
 <p>You're logged in already!</p>
 	{% else %}
-	<div id="login">
 		<h3>LOGIN</h3>
 			<div class="inner">
 				<form action="/login" method="POST"> <!-- was \ now / -->
-				  <input type="username" name="username" placeholder="Username">
-				  <input type="password" name="password" placeholder="Password">
-				  <input type="submit" name="submit" value="Log In">
+				  <input class="login_input" type="username" name="username" placeholder="Username">
+				  <input class="login_input" type="password" name="password" placeholder="Password">
+				  <p></p>
+				  <input class="button" type="submit" name="submit" value="Log In">
 				</form>
-			</div>
-	</div>
+				</div>
 	<p></p>
 	<p></p>
 	<p></p>

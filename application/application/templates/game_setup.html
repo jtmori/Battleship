@@ -1,4 +1,27 @@
 {% block body %}
+	<style type="text/css">
+body{background: #6f2a2a;}
+h1 { color: #111; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+p { color: #111; font-family: 'Lucida Sans', Arial, sans-serif; font-size: 16px; line-height: 26px; text-indent: 30px; margin-left:200px; margin-right: 200px; margin-bottom: 0px; text-align:center;}
+#outer {width:100%;text-align: center;}
+.inner {display: inline-block;}
+.button {background-color: #111;
+    color: white;
+    border: 2px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	border-radius: 4px;}
+.button:hover {border-color: #3f2a2a; background-color: white; color: #111;}
+.boat_input {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+}
+.boat_input:focus {border: 3px solid #555;}
+	</style>
 <title>Battleship - Setup</title>
 <div class=page>
 	<h1>Battleship Game</h1>
@@ -8,23 +31,21 @@
 	<p></p>
 	<p></p>
 
-	<form action="/game_setup/" method="POST"> <!-- was \ now / -->
-	  <input type="Boat 1" name="Boat 1" placeholder="A0">
-	  <input type="Dir 1" name="Dir 1" placeholder="0">
-	  <p></p>
-	  <input type="Boat 2" name="Boat 2" placeholder="B1">
-	  <input type="Dir 2" name="Dir 2" placeholder="1">
-	  <p></p>
-	  <input type="Boat 3" name="Boat 3" placeholder="C2">
-	  <input type="Dir 3" name="Dir 3" placeholder="0">
-	  <input type="submit" name="submit" value="Play">
-	</form>
-<!-- {% with messages = get_flashed_messages() %}
-   {% if messages %}
-      {% for message in messages %}
-         {{ message }}
-      {% endfor %}
-   {% endif %}
-{% endwith %} -->
+	<div id="outer">
+		<div class="inner">
+			<form action="/game_setup/" method="POST"> <!-- was \ now / -->
+			  <input class="boat_input" type="Boat 1" name="Boat 1" placeholder="A0">
+			  <input class="boat_input" type="Dir 1" name="Dir 1" placeholder="0">
+			  <p></p>
+			  <input class="boat_input" type="Boat 2" name="Boat 2" placeholder="B1">
+			  <input class="boat_input" type="Dir 2" name="Dir 2" placeholder="1">
+			  <p></p>
+			  <input class="boat_input" type="Boat 3" name="Boat 3" placeholder="C2">
+			  <input class="boat_input" type="Dir 3" name="Dir 3" placeholder="0">
+			  <p></p>
+			  <input class="button" type="submit" name="submit" value="Play">
+			</form>
+		</div>
+	</div>
 </div>
 {% endblock %}

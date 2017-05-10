@@ -1,22 +1,50 @@
 {% block body %}
+	<style type="text/css">
+body{background: #6f2a2a;}
+h1 { color: #111; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+p { color: #111; font-family: 'Lucida Sans', Arial, sans-serif; font-size: 16px; line-height: 26px; text-indent: 30px; margin-left:200px; margin-right: 200px; margin-bottom: 0px; text-align:center;}
+#outer {width:100%;text-align: center;}
+.inner {display: inline-block;}
+.button {background-color: #111;
+    color: white;
+    border: 2px solid black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+	border-radius: 4px;}
+.button:hover {border-color: #3f2a2a; background-color: white; color: #111; }
+
+</style>
+
 {% if session['logged_in'] %}
 <h1>Battleship Server</h1>
-<p>Welcome to the Battleship Server</p>
-
-<h4>Opponents</h4>
-<form action="/home/" method="POST">
-  <input type="submit" name="submit" value="Ready To Play">
-</form>
-
-<h4>Game</h4>
-<form action="/home/" method="POST">
-  <input type="submit" name="submit" value="Play Game">
-</form>
-
-<h4>Logout</h4>
-<form action="/home/" method="POST">
-  <input type="submit" name="submit" value="Log Out">
-</form>
+<p>Welcome to the Battleship Server. When Ready to Play, click the corresponding button to join the list of players. When more than one player is ready, Play Game will take you to a game with another player.</p>
+<p></p>
+<div id="outer">
+	<div class="inner">
+		<form action="/home/" method="POST">
+		  <input class="button" type="submit" name="submit" value="Ready To Play">
+		</form>
+	</div>
+</div>
+<p></p>
+<div id="outer">
+	<div class="inner">
+		<form action="/home/" method="POST">
+		  <input class ="button" type="submit" name="submit" value="Play Game">
+		</form>
+	</div>
+</div>
+<p></p>
+<div id="outer">
+	<div class="inner">
+		<form action="/home/" method="POST">
+		  <input type="submit" name="submit" value="Log Out">
+		</form>
+	</div>
+</div>
 {% else %}
 <h1>Battleship Server<h1>
 <h3>You may have tried to access a page without permissions.  Please login to view page.</h3>

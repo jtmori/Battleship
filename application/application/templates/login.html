@@ -1,21 +1,38 @@
 {% block body %}
+	<style type="text/css">
+body
+{background: #6f2a2a;}
+h1 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 54px; font-weight: 300; line-height: 58px; margin: 0 0 50px; text-align: center; font-style:bold;}
+h3 { color: #ffffff; font-family: 'Lato', sans-serif; font-size: 30px; font-weight: 300; line-height: 58px; margin: 0 0 0; text-align: center; font-style:bold;}
+
+#login {width:50%;margin: auto; background: #491d1d; border-style: solid; border-width:3px; border-color: #FFFFFF; padding-bottom: 20px}
+.inner {text-align: center;}
+	</style>
+
 <title>Battleship - Login</title>
 <div class=page>
 	<h1>Battleship Game</h1>
 {% if session['logged_in'] %}
 <p>You're logged in already!</p>
 	{% else %}
-	<h3>Login</h3>
-	<form action="/login" method="POST"> <!-- was \ now / -->
-	  <input type="username" name="username" placeholder="Username">
-	  <input type="password" name="password" placeholder="Password">
-	  <input type="submit" name="submit" value="Log In">
-	</form>
-
-	<h3>New Account</h3>
-	<form action="/new_account" method="POST">
-	  <input type="submit" name="submit" value="New User">
-	</form>
+	<div id="login">
+		<h3>LOGIN</h3>
+			<div class="inner">
+				<form action="/login" method="POST"> <!-- was \ now / -->
+				  <input type="username" name="username" placeholder="Username">
+				  <input type="password" name="password" placeholder="Password">
+				  <input type="submit" name="submit" value="Log In">
+				</form>
+			</div>
+	</div>
+	<p></p>
+	<p></p>
+	<p></p>
+	<div class ="inner">
+		<form action="/new_account" method="POST">
+		  <input type="submit" name="submit" value="New User">
+		</form>
+	</div>
 	{% endif %}
 </div>
 {% endblock %}

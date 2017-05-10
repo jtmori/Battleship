@@ -52,7 +52,8 @@ def home_page():
 				login_count = login.get_login_count()
 				login_count = login_count - 1
 				session['logged_in'] = False
-				opponents.pop(session['username'])
+				if session['username'] in opponents:
+					opponents.remove(session['username'])
 				#update pairs tuples when someone logs out
 				for item in pairs:
 					if session['username'] in item:

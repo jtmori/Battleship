@@ -64,8 +64,10 @@ def game_setup():
 				session['misses_to_fleet'] = []
 				session['RTR'] = False
 
+				temp_board = game_logic.whip_up_new_board()
+
 				# board is the bottom one in the page
-				session['board'] = game_logic.whip_up_new_board()
+				session['board'] = game_logic.add_ships_to_board(temp_board, lst)
 
 				# opponent board is the top one in the page
 				session['opponent_board'] = game_logic.whip_up_new_board()
@@ -188,7 +190,7 @@ def game():
 						session['WIN'] = True
 						return redirect(url_for('winner'))
 
-	return render_template('game.html', user1 = session['username'], user2 = session['opponent'])
+	return render_template('game.html', user1 = session['username'], user2 = session['opponent'], opp_board = session['opponent_board'], board = session['board'])
 
 # assumes a 10 by 10 board
 # direction value of 0 is vertical, 1 is horizontal

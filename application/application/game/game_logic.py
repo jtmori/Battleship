@@ -71,3 +71,11 @@ def convert_from_letter_to_int(character):
 # converts number char into int
 def convert_from_number_to_int(character):
 	return ord(character) - 48
+
+def add_ships_to_board(board,ships):
+	for ship in ships:
+		for coord in ship:
+			if coord != 'X':
+				board[convert_from_number_to_int(coord[1])][convert_from_letter_to_int(coord[0])] = 'B'
+	return board
+							

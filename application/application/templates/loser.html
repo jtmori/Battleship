@@ -1,10 +1,17 @@
 {% block body %}
+	<style type="text/css">
+h1 { color: #111; font-family: 'Helvetica Neue', sans-serif; font-size: 275px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+h2 { color: #111; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+#outer {width:100%;text-align: center;}
+	</style>
 <title>Battleship - Game</title>
 <div class=page>
 	<h1>YOU LOSE</h1>
-
-	<form action="/loser" method="POST"> 
-	  <input type="submit" name="submit" value="Back To Home">
-	</form>
+	<h2>All your ships are destroyed</h2>
+	<div id="outer">
+		<form action="/loser" method="POST"> 
+		  <input type="submit" name="submit" value="Back To Home">
+		</form>
+	</div>
 </div>
 {% endblock %}

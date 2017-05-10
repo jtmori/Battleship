@@ -1,337 +1,136 @@
 {% block body %}
-<title>Battleship - Game</title>
-<div class=page>
-
-{% if session['RTR'] %}
-	<p>Your turn</p>	
-{% endif %}
-
-<form action="/game/" method="POST"> 
-  <input type="Coordinate" name="Coordinate" placeholder="A0">
-  <input type="submit" name="submit" value="Fire!">
-</form>
-
-<form action="/game/" method="POST"> 
-  <input type="submit" name="submit" value="Check for Attack">
-</form>
-
-<form action="/game/" method="POST"> 
-  <input type="submit" name="submit" value="Check for Response">
-</form>
-
+<!-- CSS code !-->
 	<style type="text/css">
-.tg  {border-collapse:collapse;border-spacing:0;background:#002266;}
-.tg td{font-family:Arial, sans-serif;font-size:14px;padding:20px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg th{font-family:Arial, sans-serif;font-size:14px;font-weight:normal;padding:20px 20px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
-.tg .tg-edua{text-align:center;vertical-align:top;border:0;background:#FFFFFF;}
-.tg .tg-baqh{text-align:center;vertical-align:top}
-.tg .tg-yw4l{vertical-align:top;}
+h1 { color: #111; font-family: 'Open Sans', sans-serif; font-size: 30px; font-weight: 300; line-height: 32px; margin: 0 0 72px; text-align: center; }
+#outer {width:100%;text-align: center;}
+.inner {display: inline-block;}
 
+.tg  {border-collapse:collapse;border-spacing:0;background:#002266;border-color: #FFFFFF}
+.tg td{font-family:"Lucida Console", Monaco, monospace;font-size:14px;padding:15px 15px;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg th{font-family:"Lucida Console", Monaco, monospace;font-size:14px;font-weight:normal;border-style:solid;border-width:1px;overflow:hidden;word-break:normal;}
+.tg .tg-edua{text-align:center;vertical-align:bottom;border:0;background:#FFFFFF;}
+.tg .tg-baqh{text-align:center;vertical-align:right}
+.tg .tg-yw4l{vertical-align:top;border-color: #FFFFFF}
+
+.col_names {padding-right:20px;padding-left:20px;padding-top:15px;padding-bottom:0px}
+.row_names {padding-right:0px;padding-left:15px;padding-top:15px;padding-bottom:15px}
 .hit {background:#70db70;}
 .miss {background:#ff4d4d;}
 .my_ship {background:#CCCCCC;}
 my_ship:hover {background:white}
 .their_hit {background:#ff4d4d;}
 .their_miss {background:#1a0000;}
+
+.board_title {font-family: "Lucida Console", Monaco, monospace;padding-left: 50px}
 	</style>
 
+<title>Battleship - Game</title>
+<div class=page>
 
-	<h2>{{user2}}'s Board</h2>
+{% if session['RTR'] %}
+	<h1>YOUR TURN</h1>	
+{% else %}
+	<h1>WAITING ON OPPONENT</h1>
+{% endif %}
+<div id="outer">
+	<div class="inner">
+	<form action="/game/" method="POST"> 
+	  <input type="Coordinate" name="Coordinate" placeholder="A0">
+	  <input type="submit" name="submit" value="Fire!">
+	</form>
+	</div>
+</div>
+<div id="outer">
+	<div class="inner">
+	<form action="/game/" method="POST"> 
+	  <input type="submit" name="submit" value="Check for Attack">
+	</form>
+	</div>
+	<div class="inner">
+	<form action="/game/" method="POST"> 
+	  <input type="submit" name="submit" value="Check for Response">
+	</form>
+	</div>
+</div>
+	
+
+
+	<h2 class="board_title">{{user2}}'s Board</h2>
 	<table class="tg">
 	<tr>
-		<th class="tg-edua">\</th>
-	    <th class="tg-edua">A</th>
-	    <th class="tg-edua">B</th>
-	    <th class="tg-edua">C</th>
-	    <th class="tg-edua">D</th>
-	    <th class="tg-edua">E</th>
-	    <th class="tg-edua">F</th>
-	    <th class="tg-edua">G</th>
-	    <th class="tg-edua">H</th>
-	    <th class="tg-edua">I</th>
-	    <th class="tg-edua">J</th>
+		<th class="tg-edua col_names row_names"></th>
+	    <th class="tg-edua col_names">A</th>
+	    <th class="tg-edua col_names">B</th>
+	    <th class="tg-edua col_names">C</th>
+	    <th class="tg-edua col_names">D</th>
+	    <th class="tg-edua col_names">E</th>
+	    <th class="tg-edua col_names">F</th>
+	    <th class="tg-edua col_names">G</th>
+	    <th class="tg-edua col_names">H</th>
+	    <th class="tg-edua col_names">I</th>
+	    <th class="tg-edua col_names">J</th>
 	  </tr>
-	<tr>
-	  	<th class="tg-edua">0</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	</tr>
-	<tr>
-		<th class="tg-edua">1</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">2</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">3</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">4</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">5</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">6</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">7</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">8</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">9</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
+
+<!-- Hit is "O" the letter, Miss is "X"-->
+	{% with %}
+		{% set count = 0 %}
+		{% for row in opp_board %}
+			<tr><th class="tg-edua  row_names">{{count}}</th>
+			{% for col in row %}
+				{% if col == "O" %}
+					<td class="tg-yw4l hit"></td>
+				{% elif col == "X" %}
+					<td class="tg-yw4l miss"></td>
+				{% else %}
+					<td class="tg-yw4l"></td>
+				{% endif %}
+			{% endfor %}
+			</tr>
+			{% set count = count + 1 %}
+		{% endfor %}
+	{% endwith %}
 	</table>
 	<p></p>
 	<p></p>
 	<p></p>
-	<h2>Your Board</h2>
+	<h2 class="board_title">Your Board</h2>
 	<table class="tg">
 	<tr>
-		<th class="tg-edua">\</th>
-	    <th class="tg-edua">A</th>
-	    <th class="tg-edua">B</th>
-	    <th class="tg-edua">C</th>
-	    <th class="tg-edua">D</th>
-	    <th class="tg-edua">E</th>
-	    <th class="tg-edua">F</th>
-	    <th class="tg-edua">G</th>
-	    <th class="tg-edua">H</th>
-	    <th class="tg-edua">I</th>
-	    <th class="tg-edua">J</th>
+		<th class="tg-edua col_names row_names"></th>
+	    <th class="tg-edua col_names">A</th>
+	    <th class="tg-edua col_names">B</th>
+	    <th class="tg-edua col_names">C</th>
+	    <th class="tg-edua col_names">D</th>
+	    <th class="tg-edua col_names">E</th>
+	    <th class="tg-edua col_names">F</th>
+	    <th class="tg-edua col_names">G</th>
+	    <th class="tg-edua col_names">H</th>
+	    <th class="tg-edua col_names">I</th>
+	    <th class="tg-edua col_names">J</th>
 	  </tr>
-	<tr>
-	  	<th class="tg-edua">0</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	</tr>
-	<tr>
-		<th class="tg-edua">1</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">2</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">3</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">4</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">5</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">6</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">7</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">8</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	  <tr>
-	  	<th class="tg-edua">9</th>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	    <td class="tg-yw4l"></td>
-	  </tr>
-	</table>
+
+<!-- Hit is "O" the letter, Miss is "X", boat is "B"-->
+	{% with %}
+		{% set count = 0 %}
+		{% for row in board %}
+			<tr><th class="tg-edua  row_names">{{count}}</th>
+			{% for col in row %}
+				{% if col == "O" %}
+					<td class="tg-yw4l their_hit"></td>
+				{% elif col == "X" %}
+					<td class="tg-yw4l their_miss"></td>
+				{% elif col == "B" %}
+					<td class="tg-yw4l my_ship"></td>
+				{% else %}
+					<td class="tg-yw4l"></td>
+				{% endif %}
+			{% endfor %}
+			</tr>
+			{% set count = count + 1 %}
+		{% endfor %}
+	{% endwith %}
 	</table>
 </div>
+
 
 {% endblock %}

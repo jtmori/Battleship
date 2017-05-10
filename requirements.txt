@@ -1,4 +1,5 @@
 appdirs==1.4.3
+-e git+https://github.com/jtmori/Battleship.git@d69360251577a461990edfbffa0a10bcb2dd402c#egg=application&subdirectory=application
 awsebcli==3.10.1
 Babel==2.4.0
 blessed==1.14.2
@@ -14,15 +15,20 @@ docker-py==1.7.2
 dockerpty==0.4.1
 docopt==0.6.2
 docutils==0.13.1
+enum-compat==0.0.2
+eventlet==0.21.0
 Flask==0.12.1
 Flask-Babel==0.11.1
 Flask-Login==0.4.0
 Flask-Mail==0.9.1
 Flask-OpenID==1.2.5
+Flask-SocketIO==2.8.6
 Flask-SQLAlchemy==2.2
 Flask-WhooshAlchemy==0.56
 Flask-WTF==0.14.2
 flipflop==1.0
+gevent==1.2.1
+greenlet==0.4.12
 guess-language==0.2
 itsdangerous==0.24
 Jinja2==2.9.5
@@ -33,6 +39,8 @@ pathspec==0.5.0
 pbr==2.0.0
 pyparsing==2.2.0
 python-dateutil==2.6.0
+python-engineio==1.4.0
+python-socketio==1.7.4
 python3-openid==3.1.0
 pytz==2017.2
 PyYAML==3.12
